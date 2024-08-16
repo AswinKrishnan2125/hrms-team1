@@ -9,7 +9,7 @@ import {
   Button, 
   Divider 
 } from '@mui/material';
-import avatar from '../../assets/avatar.png';
+import avatar from '../../src/assets/avatar.png';
 
 const EmployeeDetails = () => {
   const location = useLocation();
