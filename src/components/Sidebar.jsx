@@ -5,13 +5,9 @@ const Sidebar = () => {
   return (
     <div className="fixed top-0 left-0 h-full w-60 bg-gray-800 flex flex-col ">
       
-      {/* <div className="flex flex-col items-center mb-4 style={{ marginTop: '10px' }}"> */}
+     
       <div className="flex flex-col items-center">
-        {/* <img
-          src="https://via.placeholder.com/40"
-          alt="profile"
-          className="rounded-full w-8 h-8"
-        /> */}
+        
         <img
         src="https://via.placeholder.com/40"
         alt="profile"
