@@ -14,7 +14,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<BasicTable/>}/>
+        {/* <Route path="/" element={<BasicTable/>}/> */}
+        <Route path="/" element={<QuickLinks/>}/>
+        <Route path="/directory" element={<EmployeeTable/>}/>
+
         {/* <Route path="/add" element={<EmployeeForm/>}/> */}
         <Route path="/profile/:name" element={<EmployeeDetails/>}/>
       </Routes>
