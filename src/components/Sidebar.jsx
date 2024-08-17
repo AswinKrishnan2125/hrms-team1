@@ -4,6 +4,11 @@ import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import ReportIcon from '@mui/icons-material/Report';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Popper from '@mui/material/Popper';
 import { useNavigate } from "react-router-dom"; // If using React Router for navigation
 
 const Sidebar = () => {
@@ -67,9 +72,6 @@ const Sidebar = () => {
               Payroll
             </a>
           </li>
-
-
-          
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -77,6 +79,42 @@ const Sidebar = () => {
             >
               <AccessTimeIcon className="mr-2" />
               Attendance
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/performance-management"
+            >
+              <AssessmentIcon className="mr-2" />
+              Performance Management
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/reports"
+            >
+              <ReportIcon className="mr-2" />
+              Reports
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/settings"
+            >
+              <SettingsIcon className="mr-2" />
+              Settings
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/help-support"
+            >
+              <HelpOutlineIcon className="mr-2" />
+              Help & Support
             </a>
           </li>
           <li>
