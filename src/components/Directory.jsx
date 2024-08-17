@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+
+
+import React, { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -28,8 +29,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../fireBaseConfig';
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import Dashboard from './Dashboard'; // Ensure you have the correct path
 
-// Define the theme
 const theme = createTheme({
   palette: {
     primary: {
@@ -109,33 +110,26 @@ export default function EmployeeTable() {
   };
 
   const handleSave = async () => {
-    if (isEdit) {
-      try {
+    try {
+      if (isEdit) {
         const employeeRef = doc(db, "Employee", editId);
         await updateDoc(employeeRef, formData);
         setRows(rows.map((row) => (row.id === editId ? { ...row, ...formData } : row)));
-      } catch (e) {
-        console.error('Error updating document: ', e);
-      }
-    } else {
-      try {
+      } else {
         const docRef = await addDoc(collection(db, 'Employee'), {
-          name: formData.name,
-          role: formData.role,
-          department: formData.department,
-          phoneNumber: formData.phoneNumber,
+          ...formData,
           joiningDate: new Date().toISOString().split('T')[0],
         });
         setRows([{ id: docRef.id, ...formData, joiningDate: new Date().toISOString().split('T')[0] }, ...rows]);
-      } catch (e) {
-        console.error('Error adding document: ', e);
       }
+      handleClose();
+    } catch (error) {
+      console.error('Error saving document: ', error);
     }
-    handleClose();
   };
 
   const filteredRows = rows.filter((row) =>
-    [row.name, row.role, row.department, row.phoneNumber].some(value =>
+    [row.name, row.role, row.department, row.phoneNumber].some((value) =>
       value.toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
@@ -179,6 +173,11 @@ export default function EmployeeTable() {
         }}
       >
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          
+         
+          <Dashboard />
+          <section style={{ paddingLeft: '240px', paddingRight: '0px', paddingTop: '40px' }}>
+
           <Box
             sx={{
               display: 'flex',
@@ -227,7 +226,9 @@ export default function EmployeeTable() {
           </Box>
           <Typography variant="h4" component="h2" gutterBottom>
             Employee List
+            
           </Typography>
+          
           <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
             <Table sx={{ minWidth: { xs: 300, sm: 650 } }} aria-label="employee table">
               <TableHead>
@@ -251,6 +252,8 @@ export default function EmployeeTable() {
                     </>
                   )}
                   <TableCell sx={{ color: 'white' }}>Actions</TableCell>
+
+
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -283,13 +286,12 @@ export default function EmployeeTable() {
                         sx={{
                           display: 'flex',
                           justifyContent: 'space-between',
-                          alignItems: 'center',
                         }}
                       >
-                        <IconButton onClick={() => handleView(row)} color="primary" size="small">
+                        <IconButton color="primary" size="small" onClick={() => handleView(row)}>
                           <VisibilityIcon fontSize="small" />
                         </IconButton>
-                        <IconButton onClick={() => handleEdit(row)} color="primary" size="small">
+                        <IconButton color="primary" size="small" onClick={() => handleEdit(row)}>
                           <EditIcon fontSize="small" />
                         </IconButton>
                         <IconButton
@@ -307,74 +309,69 @@ export default function EmployeeTable() {
               </TableBody>
             </Table>
           </TableContainer>
+          <Modal open={open} onClose={handleClose}>
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 300,
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography variant="h6" component="h2" mb={2}>
+                {isEdit ? 'Edit Employee' : 'Add New Employee'}
+              </Typography>
+              <TextField
+                label="Name"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+              <TextField
+                label="Role"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+              />
+              <TextField
+                label="Department"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={formData.department}
+                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+              />
+              <TextField
+                label="Phone Number"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={formData.phoneNumber}
+                onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+              />
+              <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
+                <Button variant="outlined" color="secondary" onClick={handleClose} sx={{ mr: 2 }}>
+                  Cancel
+                </Button>
+                <Button variant="contained" color="primary" onClick={handleSave}>
+                  {isEdit ? 'Update' : 'Save'}
+                </Button>
+              </Box>
+            </Box>
+          </Modal>
+          </section>
         </Box>
+        
       </Box>
-
-      {/* Modal for Adding or Editing Employee */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {isEdit ? 'Edit Employee' : 'Add New Employee'}
-          </Typography>
-          <TextField
-            label="Name"
-            variant="outlined"
-            fullWidth
-            sx={{ mt: 2 }}
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
-          <TextField
-            label="Role"
-            variant="outlined"
-            fullWidth
-            sx={{ mt: 2 }}
-            value={formData.role}
-            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-          />
-          <TextField
-            label="Department"
-            variant="outlined"
-            fullWidth
-            sx={{ mt: 2 }}
-            value={formData.department}
-            onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-          />
-          <TextField
-            label="Phone Number"
-            variant="outlined"
-            fullWidth
-            sx={{ mt: 2 }}
-            value={formData.phoneNumber}
-            onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-          />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-            <Button variant="contained" color="primary" onClick={handleSave}>
-              {isEdit ? 'Update' : 'Save'}
-            </Button>
-            <Button variant="outlined" color="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+      
     </ThemeProvider>
   );
 }
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 1,
-};
