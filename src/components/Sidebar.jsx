@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, Link } from "react-router-dom"; // Import useNavigate and Link from react-router-dom
 import EventIcon from '@mui/icons-material/Event';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -8,11 +9,9 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import ReportIcon from '@mui/icons-material/Report';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import Popper from '@mui/material/Popper';
-import { useNavigate } from "react-router-dom"; // If using React Router for navigation
 
 const Sidebar = () => {
-  const navigate = useNavigate(); // Hook for navigation (React Router)
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
@@ -40,91 +39,91 @@ const Sidebar = () => {
               className="text-white bg-gray-800 text-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               onChange={handleSelectChange}
             >
-              <option value="">Employee Management</option>
+              <option value="/">Employee Management</option>
               <option value="/department-management">Department</option>
-              <option value="/directory">Employee list</option>
+              <option value="/directory">Employee List</option>
             </select>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/event"
+              to="/event"
             >
               <EventIcon className="mr-2" />
               Event
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/leave-management"
+              to="/leave-management"
             >
               <BeachAccessIcon className="mr-2" />
               Leave Management
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/payroll"
+              to="/payroll"
             >
               <AttachMoneyIcon className="mr-2" />
               Payroll
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/attendance"
+              to="/attendance"
             >
               <AccessTimeIcon className="mr-2" />
               Attendance
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/performance-management"
+              to="/performance-management"
             >
               <AssessmentIcon className="mr-2" />
               Performance Management
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/reports"
+              to="/reports"
             >
               <ReportIcon className="mr-2" />
               Reports
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/settings"
+              to="/settings"
             >
               <SettingsIcon className="mr-2" />
               Settings
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/help-support"
+              to="/help-support"
             >
               <HelpOutlineIcon className="mr-2" />
               Help & Support
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/logout"
+              to="/logout"
             >
               <LogoutIcon className="mr-2" />
               Logout
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
