@@ -12,7 +12,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<BasicTable/>}/>
-        {/* <Route path="/add" element={<EmployeeForm/>}/> */}
         <Route path="/profile/:name" element={<EmployeeDetails/>}/>
       </Routes>
     </Router>
