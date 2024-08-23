@@ -99,17 +99,13 @@
 
 
 
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
-import Dashboard from './Dashboard';
+
 import PieActiveArc from './Cpc';
 
 import { db } from "../fireBaseConfig";
 import { collection, getDocs } from "firebase/firestore";
+import Dashboard from './Dashboard';
 
 const QuickLinks = () => {
   const [totalEmployees, setTotalEmployees] = useState(0);
