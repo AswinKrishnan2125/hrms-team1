@@ -12,6 +12,8 @@ import Department from './components/Department.jsx'
 import QuickLinks from './components/QuickLinks.jsx';
 import EmployeeTable from './components/Directory.jsx';
 import DepartmentTable from './components/Department.jsx';
+import Payroll from './components/Payroll.jsx';
+import PerformanceReviewForm from './components/Perfomance.jsx';
 
 
 // import EmployeeForm from './components/EmployeeForm'
@@ -23,10 +25,13 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<BasicTable/>}/> */}
         <Route path="/" element={<QuickLinks/>}/>
+        <Route path="/performance" element={<PerformanceReviewForm/>}/>
+        <Route path="/payroll" element={<Payroll/>}/>
         <Route path="/directory" element={<EmployeeTable/>}/>
         <Route path="/profile/:name" element={<EmployeeDetails/>}/>
         <Route path="/department-management" element={<DepartmentTable/>}/>
       </Routes>
+      
     </Router>
    
   )

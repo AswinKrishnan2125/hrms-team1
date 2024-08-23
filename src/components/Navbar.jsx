@@ -86,9 +86,7 @@ const Navbar = () => {
       
       {/* Dashboard Link on the left side */}
       <div className="flex items-center space-x-4">
-        <a className="text-gray-700 text-lg font-semibold" href="/">
-          Dashboard
-        </a>
+        
       </div>
 
       {/* Centered Search Input */}
