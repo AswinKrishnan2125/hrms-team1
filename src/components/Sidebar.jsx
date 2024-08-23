@@ -11,14 +11,6 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import ReportIcon from '@mui/icons-material/Report';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import Popper from '@mui/material/Popper';
-import { useNavigate } from "react-router-dom"; 
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People'; // Employee Management Icon
-import BusinessIcon from '@mui/icons-material/Business'; // Department Icon
-import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Logout Icon
-
-
 
 const Sidebar = () => {
   const navigate = useNavigate(); // Hook for navigation (React Router)
@@ -43,37 +35,19 @@ const Sidebar = () => {
       </div>
 
       <div className="flex items-center justify-center h-screen">
-        <ul className="space-y-2">
-        <li>
-  <a
-    className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-    href="/"
-  >
-    <DashboardIcon className="mr-2" />
-    Dashboard
-  </a>
-</li>
-
-<li>
-        <a
-          className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-          href="/directory"
-        >
-          <PeopleIcon className="mr-2" />
-          Employee Management
-        </a>
-      </li>
-      <li>
-        <a
-          className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-          href="/department-management"
-        >
-          <BusinessIcon className="mr-2" />
-          Department
-        </a>
-      </li> 
-           <li>
-            <a
+        <ul className="space-y-6">
+          <li>
+            <select
+              className="text-white bg-gray-800 text-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              onChange={handleSelectChange}
+            >
+              <option value="/">Employee Management</option>
+              <option value="/department-management">Department</option>
+              <option value="/directory">Employee List</option>
+            </select>
+          </li>
+          <li>
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               href="/event"
             >
@@ -109,13 +83,13 @@ const Sidebar = () => {
             </a>
           </li>
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               href="/performance-management"
             >
               <AssessmentIcon className="mr-2" />
-              Performance
-            </a>
+              Performance Management
+            </Link>
           </li>
           <li>
             <a
@@ -145,14 +119,14 @@ const Sidebar = () => {
             </a>
           </li>
           <li>
-        <a
-          className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-          href="/logout"
-        >
-          <ExitToAppIcon className="mr-2" />
-          Logout
-        </a>
-      </li>
+            <Link
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              to="/logout"
+            >
+              <LogoutIcon className="mr-2" />
+              Logout
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

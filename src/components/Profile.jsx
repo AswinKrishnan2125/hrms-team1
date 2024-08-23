@@ -6,6 +6,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db, storage } from '../fireBaseConfig'; // Adjust the import based on your Firebase config
 import avatar from '../../src/assets/avatar.png'; // Adjust the path as needed
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import Dashboard from './Dashboard';
 
 const EmployeeDetails = () => {
   const location = useLocation();
@@ -64,8 +65,11 @@ const EmployeeDetails = () => {
   }
 
   return (
+    <>
+    <Dashboard/>
     <Box 
       sx={{ 
+        mt:8,
         p: { xs: 2, sm: 3 }, 
         display: 'flex', 
         flexDirection: 'column', 
@@ -226,6 +230,7 @@ const EmployeeDetails = () => {
         </Box>
       </Modal>
     </Box>
+    </>
   );
 };
 
