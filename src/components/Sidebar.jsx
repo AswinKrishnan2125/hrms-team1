@@ -36,25 +36,9 @@ const Sidebar = () => {
 
       <div className="flex items-center justify-center h-screen">
         <ul className="space-y-6">
-          <li>
-            <select
-              className="text-white bg-gray-800 text-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              onChange={handleSelectChange}
-            >
-              <option value="/">Employee Management</option>
-              <option value="/department-management">Department</option>
-              <option value="/directory">Employee List</option>
-            </select>
-          </li>
-          <li>
-            <Link
-              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/event"
-            >
-              <EventIcon className="mr-2" />
-              Event
-            </a>
-          </li>
+          
+         
+           
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
