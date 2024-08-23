@@ -7,7 +7,7 @@ import EmployeeDetails from './components/Profile.jsx';
 import QuickLinks from './components/QuickLinks.jsx';
 import EmployeeTable from './components/Directory.jsx';
 import Department from './components/Department.jsx'
-
+import Perfomance from './components/Perfomance.jsx'
 // import EmployeeForm from './components/EmployeeForm'
 function App() {
  
@@ -22,6 +22,7 @@ function App() {
         {/* <Route path="/add" element={<EmployeeForm/>}/> */}
         <Route path="/profile/:name" element={<EmployeeDetails/>}/>
         <Route path="/department-management" element={<Department/>}/>
+        <Route path="/perfomance" element={<Perfomance/>}/>
       </Routes>
     </Router>
    
