@@ -1,15 +1,19 @@
+
+
 import React from "react";
+import { useNavigate, Link } from 'react-router-dom';
 import EventIcon from '@mui/icons-material/Event';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import LogoutIcon from '@mui/icons-material/Logout';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ReportIcon from '@mui/icons-material/Report';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import Popper from '@mui/material/Popper';
-import { useNavigate } from "react-router-dom"; // If using React Router for navigation
+import LogoutIcon from '@mui/icons-material/Logout';
+import PeopleIcon from '@mui/icons-material/People'; // Employee Management Icon
+import BusinessIcon from '@mui/icons-material/Business'; // Department Icon
+
 
 const Sidebar = () => {
   const navigate = useNavigate(); // Hook for navigation (React Router)
@@ -23,27 +27,52 @@ const Sidebar = () => {
 
   return (
     <div className="fixed top-0 left-0 h-full w-60 bg-gray-800 flex flex-col">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center py-2.5">
         <img
           src="https://via.placeholder.com/40"
           alt="profile"
-          className="rounded-full w-20 h-20 mb-4"
-          style={{ marginTop: '40px' }} 
+          className="rounded-full w-10 h-10 mb-4"
         />
         <h1 className="text-white text-center block py-2 px-4 rounded">Name</h1>
       </div>
 
-      <div className="flex items-center justify-center h-screen">
-        <ul className="space-y-6">
+      <div className="flex flex-col flex-grow">
+        <ul className="space-y-2 p-4">
           <li>
-            <select
-              className="text-white bg-gray-800 text-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              onChange={handleSelectChange}
+            <Link
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              to="/"
             >
-              <option value="">Employee Management</option>
-              <option value="/department-management">Department</option>
-              <option value="/directory">Employee list</option>
-            </select>
+              <EventIcon className="mr-2" />
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              to="/directory"
+            >
+              <PeopleIcon className="mr-2" />
+              Employee 
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              to="/department-management"
+            >
+              <BusinessIcon className="mr-2" />
+              Department
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              to="/leave-management"
+            >
+              <BeachAccessIcon className="mr-2" />
+              Leave Management
+            </Link>
           </li>
 
           <li>
@@ -67,7 +96,15 @@ const Sidebar = () => {
               Event
             </a>
           </li>
-          
+          <li>
+            <a
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/leave-management"
+            >
+              <BeachAccessIcon className="mr-2" />
+              Leave Management
+            </a>
+          </li>
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -75,17 +112,17 @@ const Sidebar = () => {
             >
               <AttachMoneyIcon className="mr-2" />
               Payroll
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/attendance"
+              to="/attendance"
             >
               <AccessTimeIcon className="mr-2" />
               Attendance
-            </a>
+            </Link>
           </li>
 
           <li>
@@ -97,45 +134,44 @@ const Sidebar = () => {
               Performance Management
             </a> */}
           </li>
-
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/reports"
+              to="/reports"
             >
               <ReportIcon className="mr-2" />
               Reports
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/settings"
+              to="/settings"
             >
               <SettingsIcon className="mr-2" />
               Settings
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/help-support"
+              to="/help-support"
             >
               <HelpOutlineIcon className="mr-2" />
               Help & Support
-            </a>
+            </Link>
           </li>
 
           <li>
-            <a
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/logout"
+              to="/logout"
             >
               <LogoutIcon className="mr-2" />
               Logout
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -144,3 +180,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
