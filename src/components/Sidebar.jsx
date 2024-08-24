@@ -30,7 +30,7 @@ const Sidebar = () => {
           className="rounded-full w-20 h-20 mb-4"
           style={{ marginTop: '40px' }} 
         />
-        <h1 className="text-white text-center block py-2 px-4 rounded">Employee Name</h1>
+        <h1 className="text-white text-center block py-2 px-4 rounded">Name</h1>
       </div>
 
       <div className="flex items-center justify-center h-screen">
@@ -45,6 +45,19 @@ const Sidebar = () => {
               <option value="/directory">Employee list</option>
             </select>
           </li>
+
+          <li>
+            <select
+              className="text-white bg-gray-800 text-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              onChange={handleSelectChange}
+            >
+              <option value="">Leave Management</option>
+              <option value="/leave">Leave Request</option>
+              <option value="/leave-approval">Leave Approval</option>
+              <option value="/leave-history">Leave History</option>
+            </select>
+          </li>
+
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -54,15 +67,7 @@ const Sidebar = () => {
               Event
             </a>
           </li>
-          <li>
-            <a
-              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/leave-management"
-            >
-              <BeachAccessIcon className="mr-2" />
-              Leave Management
-            </a>
-          </li>
+          
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -72,6 +77,7 @@ const Sidebar = () => {
               Payroll
             </a>
           </li>
+
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -81,6 +87,7 @@ const Sidebar = () => {
               Attendance
             </a>
           </li>
+
           <li>
             {/* <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -90,6 +97,7 @@ const Sidebar = () => {
               Performance Management
             </a> */}
           </li>
+
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -99,6 +107,7 @@ const Sidebar = () => {
               Reports
             </a>
           </li>
+
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -108,6 +117,7 @@ const Sidebar = () => {
               Settings
             </a>
           </li>
+
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -117,6 +127,7 @@ const Sidebar = () => {
               Help & Support
             </a>
           </li>
+
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
