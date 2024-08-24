@@ -35,9 +35,9 @@ const QuickLinks = () => {
     const fetchPayrolls = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "PayrollS"));
-        console.log("Payroll Query Snapshot:", querySnapshot); // Log the querySnapshot for debugging
-        console.log("Number of Payroll Documents:", querySnapshot.docs.length); // Log the number of documents
-        setTotalPayrolls(querySnapshot.docs.length); // Correctly use docs.length
+        console.log("Payroll Query Snapshot:", querySnapshot); 
+        console.log("Number of Payroll Documents:", querySnapshot.docs.length); 
+        setTotalPayrolls(querySnapshot.docs.length); 
       } catch (error) {
         console.error("Error fetching payroll data: ", error);
       }
@@ -50,6 +50,7 @@ const QuickLinks = () => {
     <main className="flex-grow p-6">
       <section className="pl-[240px] pr-0">
         <section>
+          <div className="h-8"></div>
           <div className="h-8"></div>
           <div className="h-8"></div>
         </section>
