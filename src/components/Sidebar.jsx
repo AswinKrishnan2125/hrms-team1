@@ -106,7 +106,9 @@ const Sidebar = () => {
             </a>
           </li>
           <li>
-            <a
+         
+           
+             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               href="/payroll"
             >
