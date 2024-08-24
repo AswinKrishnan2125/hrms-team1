@@ -65,15 +65,7 @@ const Sidebar = () => {
               Department
             </Link>
           </li>
-          <li>
-            <Link
-              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              to="/leave-management"
-            >
-              <BeachAccessIcon className="mr-2" />
-              Leave Management
-            </Link>
-          </li>
+        
 
           <li>
             <select
@@ -96,15 +88,7 @@ const Sidebar = () => {
               Event
             </a>
           </li>
-          <li>
-            <a
-              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/leave-management"
-            >
-              <BeachAccessIcon className="mr-2" />
-              Leave Management
-            </a>
-          </li>
+         
           <li>
          
            
