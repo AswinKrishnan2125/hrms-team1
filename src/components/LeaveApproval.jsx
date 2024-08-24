@@ -19,7 +19,6 @@ import {
   Delete as DeleteIcon,
   Visibility as VisibilityIcon,
   Edit as EditIcon,
-  Add as AddIcon,
   Search as SearchIcon,
 } from '@mui/icons-material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -31,18 +30,9 @@ import Dashboard from './Dashboard';
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-    action: {
-      hover: '#e3f2fd', // Light blue hover color for table rows
-    },
+    primary: { main: '#1976d2' },
+    secondary: { main: '#dc004e' },
+    background: { default: '#f5f5f5' },
   },
 });
 
@@ -55,9 +45,10 @@ export default function EmployeeTable() {
   const [editId, setEditId] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
-    role: '',
-    department: '',
-    phoneNumber: '',
+    startDate: '',
+    endDate: '',
+    leaveType: '',
+    status: '',
   });
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
@@ -67,25 +58,33 @@ export default function EmployeeTable() {
   }, []);
 
   const fetchData = async () => {
-    const querySnapshot = await getDocs(collection(db, "Employee"));
-    const employees = [];
-    querySnapshot.forEach((doc) => {
-      employees.push({ id: doc.id, ...doc.data() });
-    });
-    setRows(employees);
+    try {
+      const querySnapshot = await getDocs(collection(db, "LeaveApplication"));
+      const Employee = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.data().Employee || '',
+        startDate: doc.data().StartDate || '',
+        endDate: doc.data().EndDate || '',
+        leaveType: doc.data().LeaveType || '',
+        status: doc.data().Status || 'Pending',
+      }));
+      setRows(Employee);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
   };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setIsEdit(false);
-    setFormData({ name: '', role: '', department: '', phoneNumber: '' });
+    setFormData({ name: '', startDate: '', endDate: '', leaveType: '', status: '' });
   };
 
   const handleDelete = async (idList) => {
     try {
       for (const id of idList) {
-        await deleteDoc(doc(db, "Employee", id));
+        await deleteDoc(doc(db, "LeaveApplication", id));
       }
       setRows(rows.filter((row) => !idList.includes(row.id)));
       setSelected([]);
@@ -101,9 +100,10 @@ export default function EmployeeTable() {
   const handleEdit = (row) => {
     setFormData({
       name: row.name,
-      role: row.role,
-      department: row.department || '',
-      phoneNumber: row.phoneNumber,
+      startDate: row.startDate,
+      endDate: row.endDate,
+      leaveType: row.leaveType,
+      status: row.status,
     });
     setEditId(row.id);
     setIsEdit(true);
@@ -112,16 +112,31 @@ export default function EmployeeTable() {
 
   const handleSave = async () => {
     try {
-      if (isEdit) {
-        const employeeRef = doc(db, "Employee", editId);
-        await updateDoc(employeeRef, formData);
-        setRows(rows.map((row) => (row.id === editId ? { ...row, ...formData } : row)));
-      } else {
-        const docRef = await addDoc(collection(db, 'Employee'), {
-          ...formData,
-          joiningDate: new Date().toISOString().split('T')[0],
+      if (isEdit && editId) {
+        const EmployeeRef = doc(db, "LeaveApplication", editId);
+        await updateDoc(EmployeeRef, {
+          Employee: formData.name,
+          StartDate: formData.startDate,
+          EndDate: formData.endDate,
+          LeaveType: formData.leaveType,
+          Status: formData.status,
         });
-        setRows([{ id: docRef.id, ...formData, joiningDate: new Date().toISOString().split('T')[0] }, ...rows]);
+
+        setRows((prevRows) =>
+          prevRows.map((row) =>
+            row.id === editId ? { ...row, ...formData } : row
+          )
+        );
+      } else {
+        const docRef = await addDoc(collection(db, 'LeaveApplication'), {
+          Employee: formData.name,
+          StartDate: formData.startDate,
+          EndDate: formData.endDate,
+          LeaveType: formData.leaveType,
+          Status: formData.status,
+        });
+
+        setRows([{ id: docRef.id, ...formData }, ...rows]);
       }
       handleClose();
     } catch (error) {
@@ -130,9 +145,9 @@ export default function EmployeeTable() {
   };
 
   const filteredRows = rows.filter((row) =>
-    [row.name, row.role, row.department, row.phoneNumber].some((value) =>
-      value.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    ['name', 'startDate', 'endDate', 'leaveType', 'status']
+      .map(key => row[key]?.toLowerCase() || '')
+      .some((value) => value.includes(searchTerm.toLowerCase()))
   );
 
   const handleSelectAllClick = (event) => {
@@ -175,38 +190,31 @@ export default function EmployeeTable() {
       >
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Dashboard />
-          <section style={{ paddingLeft: '240px', paddingRight: '0px', paddingTop: '40px' }}>
+          <section style={{ paddingLeft: '240px', paddingTop: '40px', paddingRight: '16px' }}>
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 mb: 2,
-                mt: 2,
+                mt: 2, // Added margin-top
               }}
             >
-              <Typography variant="h4" component="h2" sx={{ flexGrow: 1 }}>
-                Employee List
+              <Typography variant="h4" component="h2" sx={{ mt: 1 }}> {/* Added margin-top */}
+                Leave Approval
               </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  gap: 2,
-                  flexGrow: 1,
-                }}
-              >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <TextField
-                  label="Search Employees"
+                  label="Search"
                   variant="outlined"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   sx={{
-                    maxWidth: isMobile ? 'calc(100% - 48px)' : 300,
                     bgcolor: 'white',
+                    mr: 2,
+                    mt: 1, // Added margin-top
                   }}
-                  placeholder="Name, role, department, contact"
+                  placeholder="Name, Start Date, End Date, Leave Type, Status"
                   InputProps={{
                     endAdornment: (
                       <IconButton edge="end" color="primary">
@@ -215,26 +223,19 @@ export default function EmployeeTable() {
                     ),
                   }}
                 />
-                <IconButton
-                  color="primary"
-                  onClick={handleOpen}
-                  sx={{ border: 1, borderRadius: 1 }}
-                >
-                  <AddIcon />
-                </IconButton>
                 {selected.length > 0 && (
                   <IconButton
                     color="secondary"
                     onClick={() => handleDelete(selected)}
+                    sx={{ ml: 2 }}
                   >
                     <DeleteIcon />
                   </IconButton>
                 )}
               </Box>
             </Box>
-
-            <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
-              <Table sx={{ minWidth: { xs: 300, sm: 650 } }} aria-label="employee table">
+            <TableContainer component={Paper} sx={{ boxShadow: 3, overflowX: 'auto' }}>
+              <Table sx={{ minWidth: { xs: 300, sm: 650 } }} aria-label="Employee table">
                 <TableHead>
                   <TableRow sx={{ bgcolor: 'primary.main' }}>
                     <TableCell padding="checkbox">
@@ -243,22 +244,16 @@ export default function EmployeeTable() {
                         indeterminate={selected.length > 0 && selected.length < filteredRows.length}
                         checked={filteredRows.length > 0 && selected.length === filteredRows.length}
                         onChange={handleSelectAllClick}
-                        inputProps={{ 'aria-label': 'select all employees' }}
-                        sx={{
-                          color: 'white', // Checkbox remains visible with white color on blue background
-                          '&.Mui-checked': {
-                            color: 'white', // Ensures checkbox is visible when checked
-                          },
-                        }}
+                        inputProps={{ 'aria-label': 'select all Employee' }}
                       />
                     </TableCell>
-                    <TableCell sx={{ color: 'white' }}>Name</TableCell>
+                    <TableCell sx={{ color: 'white' }}>Employee</TableCell>
                     {!isMobile && (
                       <>
-                        <TableCell sx={{ color: 'white' }}>Department</TableCell>
-                        <TableCell sx={{ color: 'white' }}>Role</TableCell>
-                        <TableCell sx={{ color: 'white' }}>Phone Number</TableCell>
-                        <TableCell sx={{ color: 'white' }}>Joining Date</TableCell>
+                        <TableCell sx={{ color: 'white' }}>Start Date</TableCell>
+                        <TableCell sx={{ color: 'white' }}>End Date</TableCell>
+                        <TableCell sx={{ color: 'white' }}>Leave Type</TableCell>
+                        <TableCell sx={{ color: 'white' }}>Status</TableCell>
                       </>
                     )}
                     <TableCell sx={{ color: 'white' }}>Actions</TableCell>
@@ -268,31 +263,24 @@ export default function EmployeeTable() {
                   {filteredRows.map((row) => (
                     <TableRow
                       key={row.id}
-                      sx={{
-                        '&:last-child td, &:last-child th': { border: 0 },
-                        '&:hover': { bgcolor: 'action.hover' },
-                      }}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
                           color="primary"
-                          checked={selected.indexOf(row.id) !== -1}
+                          checked={selected.includes(row.id)}
                           onChange={() => handleCheckboxClick(row.id)}
-                          sx={{
-                            color: 'primary.main',
-                            '&.Mui-checked': {
-                              color: 'primary.main', // Ensures checkbox is visible when checked
-                            },
-                          }}
                         />
                       </TableCell>
-                      <TableCell>{row.name}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
                       {!isMobile && (
                         <>
-                          <TableCell>{row.department}</TableCell>
-                          <TableCell>{row.role}</TableCell>
-                          <TableCell>{row.phoneNumber}</TableCell>
-                          <TableCell>{row.joiningDate}</TableCell>
+                          <TableCell>{row.startDate}</TableCell>
+                          <TableCell>{row.endDate}</TableCell>
+                          <TableCell>{row.leaveType}</TableCell>
+                          <TableCell>{row.status}</TableCell>
                         </>
                       )}
                       <TableCell>
@@ -302,9 +290,6 @@ export default function EmployeeTable() {
                         <IconButton color="primary" onClick={() => handleEdit(row)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton color="secondary" onClick={() => handleDelete([row.id])}>
-                          <DeleteIcon />
-                        </IconButton>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -312,64 +297,78 @@ export default function EmployeeTable() {
               </Table>
             </TableContainer>
           </section>
-        </Box>
-      </Box>
-      <Modal open={open} onClose={handleClose} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 3,
-            maxWidth: 400,
-            width: '100%',
-          }}
-        >
-          <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-            {isEdit ? 'Edit Employee' : 'Add Employee'}
-          </Typography>
-          <form noValidate autoComplete="off">
-            <TextField
-              fullWidth
-              label="Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              margin="normal"
-              required
-            />
-            <TextField
-              fullWidth
-              label="Role"
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              margin="normal"
-              required
-            />
-            <TextField
-              fullWidth
-              label="Department"
-              value={formData.department}
-              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              label="Phone Number"
-              value={formData.phoneNumber}
-              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-              margin="normal"
-            />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-              <Button color="primary" onClick={handleSave}>
-                {isEdit ? 'Update' : 'Save'}
-              </Button>
-              <Button onClick={handleClose} sx={{ ml: 1 }}>
-                Cancel
+          <Modal open={open} onClose={handleClose}>
+            <Box sx={modalStyle}>
+              <Typography variant="h6" component="h2">
+                {isEdit ? 'Edit Leave' : 'Add New Leave'}
+              </Typography>
+              <TextField
+                label="Employee Name"
+                variant="outlined"
+                fullWidth
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Start Date"
+                variant="outlined"
+                fullWidth
+                type="date"
+                value={formData.startDate}
+                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                sx={{ mb: 2 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                label="End Date"
+                variant="outlined"
+                fullWidth
+                type="date"
+                value={formData.endDate}
+                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                sx={{ mb: 2 }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                label="Leave Type"
+                variant="outlined"
+                fullWidth
+                value={formData.leaveType}
+                onChange={(e) => setFormData({ ...formData, leaveType: e.target.value })}
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Status"
+                variant="outlined"
+                fullWidth
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                sx={{ mb: 2 }}
+              />
+              <Button onClick={handleSave} variant="contained" color="primary" sx={{ mt: 2 }}>
+                {isEdit ? 'Save Changes' : 'Add Leave'}
               </Button>
             </Box>
-          </form>
+          </Modal>
         </Box>
-      </Modal>
+      </Box>
     </ThemeProvider>
   );
 }
+
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};

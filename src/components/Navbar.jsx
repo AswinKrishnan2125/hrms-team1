@@ -51,15 +51,19 @@
 
 
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
-  const location = useLocation();
 
   const handleToggle = () => {
     setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark");
+    if (darkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
   };
 
   // Map the current route to a page name
@@ -82,32 +86,26 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex justify-between items-center p-4 bg-white shadow-md fixed top-0 left-[260px] w-[calc(100%-250px)] z-10">
-      
+    <nav className="flex justify-between items-center rounded-lg p-4 bg-white dark:bg-gray-800 shadow-md fixed top-2 left-[260px] w-[calc(100%-250px)] z-10">
       {/* Dashboard Link on the left side */}
       <div className="flex items-center space-x-4">
-        
+        <a className="text-gray-700 text-lg font-semibold" href="/">
+          Dashboard
+        </a>
       </div>
 
-      {/* Centered Search Input */}
-      {/* <div className="absolute left-1/2 transform -translate-x-1/2">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="border rounded px-4 py-2"
-        />
-      </div> */}
-
-      {/* Right Side Icons and Profile */}
       <div className="flex items-center ml-auto space-x-4">
         <div className="flex space-x-4">
           <button
             onClick={handleToggle}
-            className="text-gray-700 text-lg"
+            className="text-gray-700 dark:text-gray-200 text-lg"
           >
             {darkMode ? "☀️" : "🌙"}
           </button>
-          <a className="text-gray-700 text-lg" href="/notification">
+          <a
+            className="text-gray-700 dark:text-gray-200 text-lg"
+            href="/notification"
+          >
             🔔
           </a>
         </div>

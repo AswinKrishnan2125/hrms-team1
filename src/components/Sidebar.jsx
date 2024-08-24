@@ -33,7 +33,7 @@ const Sidebar = () => {
           alt="profile"
           className="rounded-full w-10 h-10 mb-4"
         />
-        <h1 className="text-white text-center block py-2 px-4 rounded">Employee Name</h1>
+        <h1 className="text-white text-center block py-2 px-4 rounded">Name</h1>
       </div>
 
       <div className="flex flex-col flex-grow">
@@ -74,24 +74,49 @@ const Sidebar = () => {
               Leave Management
             </Link>
           </li>
+
           <li>
-        <a
-          className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-          href="/event"
-        >
-          <EventIcon className="mr-2" />
-          Event
-        </a>
-      </li>
+            <select
+              className="text-white bg-gray-800 text-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              onChange={handleSelectChange}
+            >
+              <option value="">Leave Management</option>
+              <option value="/leave">Leave Request</option>
+              <option value="/leave-approval">Leave Approval</option>
+              <option value="/leave-history">Leave History</option>
+            </select>
+          </li>
+
           <li>
-            <Link
+            <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              to="/payroll"
+              href="/event"
+            >
+              <EventIcon className="mr-2" />
+              Event
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/leave-management"
+            >
+              <BeachAccessIcon className="mr-2" />
+              Leave Management
+            </a>
+          </li>
+          <li>
+         
+           
+             <Link
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/payroll"
             >
               <AttachMoneyIcon className="mr-2" />
               Payroll
             </Link>
           </li>
+
           <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -101,15 +126,16 @@ const Sidebar = () => {
               Attendance
             </Link>
           </li>
+
           <li>
-  <a
-    className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-    href="/performance"
-  >
-    <AssessmentIcon className="mr-2" />
-    Performance
-  </a>
-</li>
+            {/* <a
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              href="/performance-management"
+            >
+              <AssessmentIcon className="mr-2" />
+              Performance Management
+            </a> */}
+          </li>
           <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -119,6 +145,7 @@ const Sidebar = () => {
               Reports
             </Link>
           </li>
+
           <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -128,6 +155,7 @@ const Sidebar = () => {
               Settings
             </Link>
           </li>
+
           <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
@@ -137,6 +165,7 @@ const Sidebar = () => {
               Help & Support
             </Link>
           </li>
+
           <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
