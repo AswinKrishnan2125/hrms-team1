@@ -15,8 +15,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<QuickLinks />} />
-        <Route path="/performance" element={<PerformanceReviewForm />} />
-        <Route path="/payroll" element={<Payroll />} />
+        <Route path="/performance-management" element={<PerformanceReviewForm />} />
+        <Route path="/payroll" element={<Payroll/>}/>
+
         <Route path="/directory" element={<EmployeeTable />} />
         <Route path="/leave" element={<LeaveForm />} />
         <Route path="/leave-history" element={<LeaveHistory />} />

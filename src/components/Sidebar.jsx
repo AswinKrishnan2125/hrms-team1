@@ -90,11 +90,9 @@ const Sidebar = () => {
           </li>
          
           <li>
-         
-           
-             <Link
+            <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/payroll"
+              to="/payroll"
             >
               <AttachMoneyIcon className="mr-2" />
               Payroll
@@ -112,13 +110,13 @@ const Sidebar = () => {
           </li>
 
           <li>
-            {/* <a
+            <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               href="/performance-management"
             >
               <AssessmentIcon className="mr-2" />
               Performance Management
-            </a> */}
+            </a>
           </li>
           <li>
             <Link
