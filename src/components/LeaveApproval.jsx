@@ -36,7 +36,7 @@ const theme = createTheme({
   },
 });
 
-export default function EmployeeTable() {
+export default function LeaveTable() {
   const [rows, setRows] = useState([]);
   const [selected, setSelected] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
