@@ -15,7 +15,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<QuickLinks />} />
-        <Route path="/performance-management" element={<PerformanceReviewForm />} />
+        <Route path="/performance-review" element={<PerformanceReviewForm />} />
         <Route path="/payroll" element={<Payroll/>}/>
 
         <Route path="/directory" element={<EmployeeTable />} />

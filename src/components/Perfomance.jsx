@@ -68,11 +68,10 @@ const PerformanceReviewForm = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <Dashboard/>
-      {/* Updated the component reference */}
+      <Dashboard />
       <Box sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-          <Paper sx={{ padding: '24px', maxWidth: '600px', width: '100%' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3, ml: { xs: 0, sm: 4, md: 20 } }}>
+          <Paper sx={{ padding: '24px', width: { xs: '100%', sm: '80%', md: '70%' } }}>
             <Typography variant="h5" sx={{ marginBottom: '16px' }}>
               Performance Review Form
             </Typography>
@@ -101,7 +100,9 @@ const PerformanceReviewForm = () => {
                       onChange={handleInputChange}
                       label="Communication Skills"
                     >
-                      <MenuItem value=""><em>None</em></MenuItem>
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
                       <MenuItem value="Excellent">Excellent</MenuItem>
                       <MenuItem value="Good">Good</MenuItem>
                       <MenuItem value="Average">Average</MenuItem>
@@ -123,7 +124,9 @@ const PerformanceReviewForm = () => {
                       onChange={handleInputChange}
                       label="Teamwork"
                     >
-                      <MenuItem value=""><em>None</em></MenuItem>
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
                       <MenuItem value="Excellent">Excellent</MenuItem>
                       <MenuItem value="Good">Good</MenuItem>
                       <MenuItem value="Average">Average</MenuItem>
@@ -145,7 +148,9 @@ const PerformanceReviewForm = () => {
                       onChange={handleInputChange}
                       label="Problem-Solving"
                     >
-                      <MenuItem value=""><em>None</em></MenuItem>
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
                       <MenuItem value="Excellent">Excellent</MenuItem>
                       <MenuItem value="Good">Good</MenuItem>
                       <MenuItem value="Average">Average</MenuItem>
@@ -208,7 +213,9 @@ const PerformanceReviewForm = () => {
               </Grid>
             </form>
             {Object.keys(errors).length > 0 && (
-              <Box sx={{ marginTop: '16px', padding: '12px', bgcolor: 'error.light', borderRadius: '4px' }}>
+              <Box
+                sx={{ marginTop: '16px', padding: '12px', bgcolor: 'error.light', borderRadius: '4px' }}
+              >
                 <Typography variant="body2" color="error.main">
                   Please correct the errors above.
                 </Typography>

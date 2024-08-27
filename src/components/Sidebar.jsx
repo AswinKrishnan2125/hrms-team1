@@ -110,14 +110,24 @@ const Sidebar = () => {
           </li>
 
           <li>
+            <Link
+              className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              to="/performance-review"
+            >
+              <AccessTimeIcon className="mr-2" />
+              Perfomance Management
+            </Link>
+          </li>
+
+          {/* <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/performance-management"
+              href="/performance-review"
             >
               <AssessmentIcon className="mr-2" />
               Performance Management
             </a>
-          </li>
+          </li> */}
           <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
