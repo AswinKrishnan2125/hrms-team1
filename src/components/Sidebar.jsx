@@ -1,9 +1,10 @@
+
 import React from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import EventIcon from '@mui/icons-material/Event';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+
+import RolesIcon from '@mui/icons-material/Group'; // Replace with the correct icon
+
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ReportIcon from '@mui/icons-material/Report';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -45,6 +46,16 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
+  <Link
+    className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+    to="/roles"
+  >
+    <RolesIcon className="mr-2" />
+    Roles
+  </Link>
+</li>
+
+          <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               to="/directory"
@@ -81,7 +92,18 @@ const Sidebar = () => {
               <option value="/leave-history">Leave History</option>
             </select>
           </li>
-          <li>
+<li>
+<select
+              className="text-white bg-gray-800 text-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
+              onChange={handleSelectChange}
+            >
+              <option value="">Payroll Management</option>
+              <option value="/payroll-dashboard">Payroll Dashboard</option>
+              <option value="/payroll">Payroll Records</option>
+              <option value="/payroll-report">Payroll Report</option>
+            </select>
+</li>
+          {/* <li>
         <a
           className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
           href="/event"
@@ -89,8 +111,8 @@ const Sidebar = () => {
           <EventIcon className="mr-2" />
           Event
         </a>
-      </li>
-          <li>
+      </li> */}
+          {/* <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               to="/payroll"
@@ -98,8 +120,9 @@ const Sidebar = () => {
               <AttachMoneyIcon className="mr-2" />
               Payroll
             </Link>
-          </li>
-          <li>
+          </li> */}
+          
+          {/* <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
               to="/attendance"
@@ -107,7 +130,7 @@ const Sidebar = () => {
               <AccessTimeIcon className="mr-2" />
               Attendance
             </Link>
-          </li>
+          </li> */}
           <li>
   <a
     className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
