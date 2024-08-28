@@ -25,9 +25,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<BasicTable/>}/> */}
-        <Route path="/" element={<QuickLinks/>}/>
-        <Route path="/performance" element={<PerformanceReviewForm/>}/>
+        <Route path="/" element={<QuickLinks />} />
+        <Route path="/performance-management" element={<PerformanceReviewForm />} />
         <Route path="/payroll" element={<Payroll/>}/>
         <Route path="/payroll-dashboard" element={<PayrollDashboard/>}/>
         <Route path="/leave" element={<LeaveForm/>}/>
