@@ -79,6 +79,10 @@ const Navbar = () => {
         return 'Performance';
       case '/payroll':
         return 'Payroll';
+        case '/reports':
+        return 'Reports';
+        case '/roles':
+        return 'Roll';
         case '/payroll-dashboard':
         return 'Payroll Dashboard';
         case '/payroll-report':

@@ -15,6 +15,8 @@ import LeaveForm from './components/Leave.jsx';
 import LeaveTable from './components/LeaveApproval.jsx';
 import PayrollDashboard from './components/PayrollDashboard.jsx';
 import PayrollReport from './components/PayrollReport.jsx';
+import Role from './components/Roles.jsx';
+import Reports from './components/Report.jsx';
 
 
 
@@ -28,6 +30,8 @@ function App() {
         <Route path="/" element={<QuickLinks />} />
         <Route path="/performance-management" element={<PerformanceReviewForm />} />
         <Route path="/payroll" element={<Payroll/>}/>
+        <Route path="/roles" element={<Role/>}/>
+        <Route path="/reports" element={<Reports/>}/>
         <Route path="/payroll-dashboard" element={<PayrollDashboard/>}/>
         <Route path="/leave" element={<LeaveForm/>}/>
         <Route path="/leave-approval" element={<LeaveTable/>}/>
