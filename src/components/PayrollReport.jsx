@@ -1,10 +1,6 @@
 
 
 
-
-
-
-
 // import React, { useState, useEffect } from "react";
 // import {
 //   Box,
@@ -36,18 +32,15 @@
 //   const [rowsPerPage, setRowsPerPage] = useState(30);
 
 //   // Filter states
-//   const [filterName, setFilterName] = useState("");
-//   const [filterSalary, setFilterSalary] = useState("");
-//   const [filterNetPay, setFilterNetPay] = useState("");
-//   const [filterPeriod, setFilterPeriod] = useState("");
-//   const [filterStatus, setFilterStatus] = useState("");
+//   const [filterType, setFilterType] = useState(""); // Filter type (e.g., Name, Salary)
+//   const [filterValue, setFilterValue] = useState(""); // Filter value based on the selected type
 
 //   // Dropdown options
 //   const [nameOptions, setNameOptions] = useState([]);
 //   const salaryOptions = ["<50k", "50k-100k", "100k-200k", ">200k"];
 //   const netPayOptions = ["<30k", "30k-70k", "70k-150k", ">150k"];
 //   const periodOptions = ["Jan-Mar", "Apr-Jun", "Jul-Sep", "Oct-Dec"];
-//   const statusOptions = ["Active", "Inactive", "On Leave"];
+//   const statusOptions = ["pending", "approve"];
 
 //   // Fetch payroll data from Firestore
 //   useEffect(() => {
@@ -73,13 +66,20 @@
 //   // Function to handle filtering
 //   const applyFilters = () => {
 //     const filtered = payrollData.filter((payroll) => {
-//       const nameMatch = filterName === "" || payroll.employeeName === filterName;
-//       const salaryMatch = filterSalary === "" || matchRange(payroll.salary, filterSalary, salaryOptions);
-//       const netPayMatch = filterNetPay === "" || matchRange(payroll.netPay, filterNetPay, netPayOptions);
-//       const periodMatch = filterPeriod === "" || matchPeriod(payroll, filterPeriod);
-//       const statusMatch = filterStatus === "" || payroll.status === filterStatus;
-
-//       return nameMatch && salaryMatch && netPayMatch && periodMatch && statusMatch;
+//       switch (filterType) {
+//         case "Name":
+//           return filterValue === "" || payroll.employeeName === filterValue;
+//         case "Salary":
+//           return filterValue === "" || matchRange(payroll.salary, filterValue, salaryOptions);
+//         case "Net Pay":
+//           return filterValue === "" || matchRange(payroll.netPay, filterValue, netPayOptions);
+//         case "Period":
+//           return filterValue === "" || matchPeriod(payroll, filterValue);
+//         case "Status":
+//           return filterValue === "" || payroll.status === filterValue;
+//         default:
+//           return true;
+//       }
 //     });
 
 //     setFilteredData(filtered);
@@ -151,74 +151,44 @@
 //           <Grid container spacing={2} sx={{ mb: 3 }}>
 //             <Grid item xs={12} sm={6} md={4}>
 //               <FormControl fullWidth>
-//                 <InputLabel>Filter by Employee Name</InputLabel>
+//                 <InputLabel>Filter Type</InputLabel>
 //                 <Select
-//                   value={filterName}
-//                   onChange={(e) => setFilterName(e.target.value)}
-//                   label="Filter by Employee Name"
+//                   value={filterType}
+//                   onChange={(e) => setFilterType(e.target.value)}
+//                   label="Filter Type"
+//                 >
+//                   <MenuItem value="">Select Filter Type</MenuItem>
+//                   <MenuItem value="Name">Name</MenuItem>
+//                   <MenuItem value="Salary">Salary</MenuItem>
+//                   <MenuItem value="Net Pay">Net Pay</MenuItem>
+//                   <MenuItem value="Period">Period</MenuItem>
+//                   <MenuItem value="Status">Status</MenuItem>
+//                 </Select>
+//               </FormControl>
+//             </Grid>
+//             <Grid item xs={12} sm={6} md={4}>
+//               <FormControl fullWidth>
+//                 <InputLabel>Filter Value</InputLabel>
+//                 <Select
+//                   value={filterValue}
+//                   onChange={(e) => setFilterValue(e.target.value)}
+//                   label="Filter Value"
+//                   disabled={filterType === ""}
 //                 >
 //                   <MenuItem value="">All</MenuItem>
-//                   {nameOptions.map((name, index) => (
+//                   {filterType === "Name" && nameOptions.map((name, index) => (
 //                     <MenuItem key={index} value={name}>{name}</MenuItem>
 //                   ))}
-//                 </Select>
-//               </FormControl>
-//             </Grid>
-//             <Grid item xs={12} sm={6} md={4}>
-//               <FormControl fullWidth>
-//                 <InputLabel>Filter by Salary</InputLabel>
-//                 <Select
-//                   value={filterSalary}
-//                   onChange={(e) => setFilterSalary(e.target.value)}
-//                   label="Filter by Salary"
-//                 >
-//                   <MenuItem value="">All</MenuItem>
-//                   {salaryOptions.map((option, index) => (
+//                   {filterType === "Salary" && salaryOptions.map((option, index) => (
 //                     <MenuItem key={index} value={option}>{option}</MenuItem>
 //                   ))}
-//                 </Select>
-//               </FormControl>
-//             </Grid>
-//             <Grid item xs={12} sm={6} md={4}>
-//               <FormControl fullWidth>
-//                 <InputLabel>Filter by Net Pay</InputLabel>
-//                 <Select
-//                   value={filterNetPay}
-//                   onChange={(e) => setFilterNetPay(e.target.value)}
-//                   label="Filter by Net Pay"
-//                 >
-//                   <MenuItem value="">All</MenuItem>
-//                   {netPayOptions.map((option, index) => (
+//                   {filterType === "Net Pay" && netPayOptions.map((option, index) => (
 //                     <MenuItem key={index} value={option}>{option}</MenuItem>
 //                   ))}
-//                 </Select>
-//               </FormControl>
-//             </Grid>
-//             <Grid item xs={12} sm={6} md={4}>
-//               <FormControl fullWidth>
-//                 <InputLabel>Filter by Pay Period</InputLabel>
-//                 <Select
-//                   value={filterPeriod}
-//                   onChange={(e) => setFilterPeriod(e.target.value)}
-//                   label="Filter by Pay Period"
-//                 >
-//                   <MenuItem value="">All</MenuItem>
-//                   {periodOptions.map((option, index) => (
+//                   {filterType === "Period" && periodOptions.map((option, index) => (
 //                     <MenuItem key={index} value={option}>{option}</MenuItem>
 //                   ))}
-//                 </Select>
-//               </FormControl>
-//             </Grid>
-//             <Grid item xs={12} sm={6} md={4}>
-//               <FormControl fullWidth>
-//                 <InputLabel>Filter by Status</InputLabel>
-//                 <Select
-//                   value={filterStatus}
-//                   onChange={(e) => setFilterStatus(e.target.value)}
-//                   label="Filter by Status"
-//                 >
-//                   <MenuItem value="">All</MenuItem>
-//                   {statusOptions.map((option, index) => (
+//                   {filterType === "Status" && statusOptions.map((option, index) => (
 //                     <MenuItem key={index} value={option}>{option}</MenuItem>
 //                   ))}
 //                 </Select>
@@ -230,6 +200,7 @@
 //                 color="primary"
 //                 onClick={applyFilters}
 //                 fullWidth
+//                 disabled={filterType === "" || filterValue === ""}
 //               >
 //                 Apply Filters
 //               </Button>
@@ -301,6 +272,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -350,7 +341,7 @@ const PayrollReport = () => {
         const payrollSnapshot = await getDocs(payrollsCollection);
         const payrollList = payrollSnapshot.docs.map((doc) => doc.data());
         setPayrollData(payrollList);
-        setFilteredData(payrollList); // Initialize filtered data with full dataset
+        setFilteredData(sortByName(payrollList)); // Initialize filtered data with sorted dataset
 
         // Extract unique employee names for dropdown options
         const uniqueNames = [...new Set(payrollList.map((payroll) => payroll.employeeName))];
@@ -362,6 +353,11 @@ const PayrollReport = () => {
 
     fetchData();
   }, []);
+
+  // Sort data alphabetically by employee name
+  const sortByName = (data) => {
+    return data.slice().sort((a, b) => a.employeeName.localeCompare(b.employeeName));
+  };
 
   // Function to handle filtering
   const applyFilters = () => {
@@ -382,7 +378,15 @@ const PayrollReport = () => {
       }
     });
 
-    setFilteredData(filtered);
+    setFilteredData(sortByName(filtered)); // Sort the filtered data
+    setPage(0); // Reset to the first page
+  };
+
+  // Function to clear filters
+  const handleClearFilter = () => {
+    setFilterType("");
+    setFilterValue("");
+    setFilteredData(sortByName(payrollData)); // Reset to all data sorted alphabetically
     setPage(0); // Reset to the first page
   };
 
@@ -505,7 +509,20 @@ const PayrollReport = () => {
                 Apply Filters
               </Button>
             </Grid>
+            
+            <Grid item xs={12} sm={6} md={4}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleClearFilter}
+                fullWidth
+              >
+                Clear Filter
+              </Button>
+            </Grid>
+         
           </Grid>
+          
 
           {/* Payroll Data Table */}
           <TableContainer component={Paper} sx={{ mt: 3 }}>

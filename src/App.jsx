@@ -20,6 +20,7 @@ import Reports from './components/Report.jsx';
 
 
 
+
 // import EmployeeForm from './components/EmployeeForm'
 function App() {
  
@@ -34,6 +35,7 @@ function App() {
         <Route path="/reports" element={<Reports/>}/>
         <Route path="/payroll-dashboard" element={<PayrollDashboard/>}/>
         <Route path="/leave" element={<LeaveForm/>}/>
+        
         <Route path="/leave-approval" element={<LeaveTable/>}/>
         <Route path="/payroll-report" element={<PayrollReport/>}/>
         <Route path="/directory" element={<EmployeeTable/>}/>
