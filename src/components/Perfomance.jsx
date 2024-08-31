@@ -11,20 +11,20 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-import Sidebar from './Sidebar';
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
 
 const PerformanceReviewForm = () => {
   const [formValues, setFormValues] = useState({
-    performanceMetrics: '',
-    communicationSkills: '',
-    teamwork: '',
-    problemSolving: '',
-    attendance: '',
+    employeeID: '',
+    rating: '',
     comments: '',
+    reviewerID: '',
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,33 +36,48 @@ const PerformanceReviewForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formValues.performanceMetrics.trim()) {
-      newErrors.performanceMetrics = 'Performance metrics are required.';
+    if (!formValues.employeeID.trim()) {
+      newErrors.employeeID = 'Employee ID is required.';
     }
-    if (!formValues.communicationSkills.trim()) {
-      newErrors.communicationSkills = 'Communication skills are required.';
-    }
-    if (!formValues.teamwork.trim()) {
-      newErrors.teamwork = 'Teamwork is required.';
-    }
-    if (!formValues.problemSolving.trim()) {
-      newErrors.problemSolving = 'Problem-solving is required.';
-    }
-    if (!formValues.attendance.trim()) {
-      newErrors.attendance = 'Attendance is required.';
+    if (!formValues.rating.trim()) {
+      newErrors.rating = 'Rating is required.';
     }
     if (!formValues.comments.trim()) {
       newErrors.comments = 'Comments are required.';
+    }
+    if (!formValues.reviewerID.trim()) {
+      newErrors.reviewerID = 'Reviewer ID is required.';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      setSubmitted(true);
-      // Submit the form (you can handle API calls here)
+      const db = getFirestore();
+      try {
+        await addDoc(collection(db, "Performance"), {
+          employeeID: formValues.employeeID,
+          rating: parseInt(formValues.rating, 10),
+          comments: formValues.comments,
+          reviewerID: formValues.reviewerID,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          reviewDate: new Date(),
+        });
+        setSubmitted(true);
+        // Reset form
+        setFormValues({
+          employeeID: '',
+          rating: '',
+          comments: '',
+          reviewerID: '',
+        });
+        setErrors({});
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
     }
   };
 
@@ -79,104 +94,30 @@ const PerformanceReviewForm = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    label="Team"
-                    name="performanceMetrics"
+                    label="Employee ID"
+                    name="employeeID"
                     variant="outlined"
                     fullWidth
-                    value={formValues.performanceMetrics}
+                    value={formValues.employeeID}
                     onChange={handleInputChange}
-                    error={!!errors.performanceMetrics}
-                    helperText={errors.performanceMetrics}
+                    error={!!errors.employeeID}
+                    helperText={errors.employeeID}
                   />
                 </Grid>
 
-                {/* Communication Skills Dropdown */}
-                <Grid item xs={12}>
-                  <FormControl fullWidth variant="outlined" error={!!errors.communicationSkills}>
-                    <InputLabel>Collaboration</InputLabel>
-                    <Select
-                      name="communicationSkills"
-                      value={formValues.communicationSkills}
-                      onChange={handleInputChange}
-                      label="Communication Skills"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="Excellent">Excellent</MenuItem>
-                      <MenuItem value="Good">Good</MenuItem>
-                      <MenuItem value="Average">Average</MenuItem>
-                      <MenuItem value="Poor">Poor</MenuItem>
-                    </Select>
-                  </FormControl>
-                  {errors.communicationSkills && (
-                    <Typography color="error">{errors.communicationSkills}</Typography>
-                  )}
-                </Grid>
-
-                {/* Teamwork Dropdown */}
-                <Grid item xs={12}>
-                  <FormControl fullWidth variant="outlined" error={!!errors.teamwork}>
-                    <InputLabel>Teamwork</InputLabel>
-                    <Select
-                      name="teamwork"
-                      value={formValues.teamwork}
-                      onChange={handleInputChange}
-                      label="Teamwork"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="Excellent">Excellent</MenuItem>
-                      <MenuItem value="Good">Good</MenuItem>
-                      <MenuItem value="Average">Average</MenuItem>
-                      <MenuItem value="Poor">Poor</MenuItem>
-                    </Select>
-                  </FormControl>
-                  {errors.teamwork && (
-                    <Typography color="error">{errors.teamwork}</Typography>
-                  )}
-                </Grid>
-
-                {/* Problem-Solving Dropdown */}
-                <Grid item xs={12}>
-                  <FormControl fullWidth variant="outlined" error={!!errors.problemSolving}>
-                    <InputLabel>Problem-Solving</InputLabel>
-                    <Select
-                      name="problemSolving"
-                      value={formValues.problemSolving}
-                      onChange={handleInputChange}
-                      label="Problem-Solving"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="Excellent">Excellent</MenuItem>
-                      <MenuItem value="Good">Good</MenuItem>
-                      <MenuItem value="Average">Average</MenuItem>
-                      <MenuItem value="Poor">Poor</MenuItem>
-                    </Select>
-                  </FormControl>
-                  {errors.problemSolving && (
-                    <Typography color="error">{errors.problemSolving}</Typography>
-                  )}
-                </Grid>
-
-                {/* Attendance Field */}
                 <Grid item xs={12}>
                   <TextField
-                    label="Attendance"
-                    name="attendance"
+                    label="Rating"
+                    name="rating"
                     variant="outlined"
                     fullWidth
-                    value={formValues.attendance}
+                    value={formValues.rating}
                     onChange={handleInputChange}
-                    error={!!errors.attendance}
-                    helperText={errors.attendance}
+                    error={!!errors.rating}
+                    helperText={errors.rating}
                   />
                 </Grid>
 
-                {/* Comments */}
                 <Grid item xs={12}>
                   <TextField
                     label="Comments"
@@ -189,6 +130,19 @@ const PerformanceReviewForm = () => {
                     onChange={handleInputChange}
                     error={!!errors.comments}
                     helperText={errors.comments}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    label="Reviewer ID"
+                    name="reviewerID"
+                    variant="outlined"
+                    fullWidth
+                    value={formValues.reviewerID}
+                    onChange={handleInputChange}
+                    error={!!errors.reviewerID}
+                    helperText={errors.reviewerID}
                   />
                 </Grid>
 
@@ -221,6 +175,16 @@ const PerformanceReviewForm = () => {
                 </Typography>
               </Box>
             )}
+            <Box sx={{ marginTop: '16px' }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => navigate(-1)}
+                fullWidth
+              >
+                Back
+              </Button>
+            </Box>
           </Paper>
         </Box>
       </Box>

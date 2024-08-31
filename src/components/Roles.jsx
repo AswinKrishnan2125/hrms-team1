@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dashboard from './Dashboard';
 
+
 const Role = () => {
   // Hardcoded user role (this would normally come from authentication)
   const [loggedInUserRole] = useState('SuperAdmin'); // Possible values: 'SuperAdmin', 'HR', 'Manager'
