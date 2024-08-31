@@ -134,7 +134,7 @@ const Sidebar = () => {
           <li>
             <a
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              href="/performance-management"
+              href="/performance-analytics"
             >
               <AssessmentIcon className="mr-2" />
               Performance Management

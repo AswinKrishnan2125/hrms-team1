@@ -15,7 +15,7 @@ import LeaveForm from './components/Leave.jsx';
 import LeaveTable from './components/LeaveApproval.jsx';
 import PayrollDashboard from './components/PayrollDashboard.jsx';
 import PayrollReport from './components/PayrollReport.jsx';
-
+import PerformanceAnalytics from './components/PerformanceDashboard.jsx';
 
 
 // import EmployeeForm from './components/EmployeeForm'
@@ -27,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<QuickLinks />} />
         <Route path="/performance-management" element={<PerformanceReviewForm />} />
+        <Route path="/performance-analytics" element={<PerformanceAnalytics />} />
         <Route path="/payroll" element={<Payroll/>}/>
         <Route path="/payroll-dashboard" element={<PayrollDashboard/>}/>
         <Route path="/leave" element={<LeaveForm/>}/>

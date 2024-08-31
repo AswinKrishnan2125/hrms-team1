@@ -75,8 +75,8 @@ const Navbar = () => {
         return 'Dashboard';
       case '/directory':
         return 'Employee';
-      case '/performance':
-        return 'Performance';
+      case '/performance-analytics':
+        return 'Performance Analytics';
       case '/payroll':
         return 'Payroll';
         case '/payroll-dashboard':
@@ -85,8 +85,8 @@ const Navbar = () => {
         return 'Payroll Report';
       case '/department-management':
         return 'Department';
-      case '/performance-review':
-        return 'Performance';
+      case '/performance-management':
+        return 'Performance Review';
       // Add more cases as needed
       default:
         return 'Dashboard'; // Default name

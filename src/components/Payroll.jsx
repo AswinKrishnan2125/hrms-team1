@@ -677,7 +677,7 @@ const Payroll = () => {
   const handleView = (row) => {
     setSelectedPayroll(row);
     setViewMode(true);
-    setOpen(true);
+    // setOpen(true);
   };
 
   const handleFileChange = async (e) => {
