@@ -19,6 +19,10 @@ import PayrollReport from './components/PayrollReport.jsx';
 import PerformanceAnalytics from './components/PerformanceDashboard.jsx';
 import Role from './components/Roles.jsx';
 import Reports from './components/Report.jsx';
+import LoginPage from './components/Login.jsx';
+import EmployeeReport from './components/EmpReport.jsx';
+import LeaveHistory from './components/LeaveHistory.jsx';
+import Notification from './components/Notification.jsx';
 
 
 
@@ -29,7 +33,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage/>} />
         <Route path="/home" element={<QuickLinks />} />
         <Route path="/performance-management" element={<PerformanceReviewForm />} />
         <Route path="/performance-analytics" element={<PerformanceAnalytics />} />
@@ -45,6 +49,7 @@ function App() {
         <Route path="/directory" element={<EmployeeTable/>}/>
         <Route path="/profile/:name" element={<EmployeeDetails/>}/>
         <Route path="/department-management" element={<DepartmentTable/>}/>
+        <Route path="/notification" element={<Notification/>}/>
       </Routes>
       
     </Router>

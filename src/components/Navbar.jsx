@@ -52,6 +52,7 @@
 
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import NotificationPopup from "./Notpop";
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -114,9 +115,22 @@ const Navbar = () => {
           >
             {darkMode ? "☀" : "🌙"}
           </button>
-          <a className="text-gray-700 text-lg" href="/notification">
-            🔔
+          {/* <a className="text-gray-700 text-lg">
+            
           </a>
+          <NotificationPopup /> */}
+          <div className="relative">
+  <a 
+    className="text-gray-700 text-lg hover:text-gray-900 transition-colors duration-300 ease-in-out"
+    aria-label="Notifications"
+  >
+    
+  </a>
+  <NotificationPopup 
+    className="absolute top-10 right-0 w-64 p-4 bg-white shadow-lg rounded-lg border border-gray-200"
+  />
+</div>
+
         </div>
       </div>
     </nav>

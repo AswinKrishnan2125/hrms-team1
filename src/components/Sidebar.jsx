@@ -65,7 +65,7 @@ const Sidebar = () => {
           <li>
             <Link
               className="text-white text-center flex items-center py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200"
-              to="/"
+              to="/home"
             >
               <EventIcon className="mr-2" />
               Dashboard
