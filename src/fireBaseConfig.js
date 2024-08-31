@@ -3,6 +3,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore"; // Ensure this line is present
 import { getStorage } from 'firebase/storage';
+import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,8 +18,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
+const auth = getAuth(app);
 // Initialize Firestore
 const db = getFirestore(app);
 const storage = getStorage(app);
-export { db,storage };
+export { auth,db,storage };

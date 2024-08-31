@@ -1,149 +1,217 @@
-import React, { useState } from 'react';
+// import React, { useEffect, useState } from 'react';
+// import { auth, db } from '../fireBaseConfig';
+// import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
+// import { Box, Typography, TextField, MenuItem, Button, Alert } from '@mui/material';
+// import Dashboard from './Dashboard';
+// const RolesPage = () => {
+//   const [userRole, setUserRole] = useState('');
+//   const [employees, setEmployees] = useState([]);
+//   const [selectedEmployee, setSelectedEmployee] = useState('');
+//   const [newRole, setNewRole] = useState('');
+//   const [error, setError] = useState(null);
+//   const [success, setSuccess] = useState(null);
+
+//   useEffect(() => {
+//     const fetchUserRole = async () => {
+//       const user = auth.currentUser;
+//       if (user) {
+//         const employeeRef = doc(db, 'Employee', user.uid); // Fetch role from Employee collection
+//         const docSnap = await getDoc(employeeRef);
+
+//         if (docSnap.exists()) {
+//           setUserRole(docSnap.data().role);
+//         }
+//       }
+//     };
+
+//     fetchUserRole();
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchEmployees = async () => {
+//       const employeesCollection = collection(db, 'Employee');
+//       const employeeSnapshot = await getDocs(employeesCollection);
+//       const employeeList = employeeSnapshot.docs.map(doc => ({
+//         id: doc.id,
+//         ...doc.data()
+//       }));
+//       setEmployees(employeeList);
+//     };
+
+//     fetchEmployees();
+//   }, []);
+
+//   const handleAssignRole = async () => {
+//     try {
+//       const docRef = doc(db, 'Employee', selectedEmployee); // Update role in Employee collection
+//       await setDoc(docRef, { role: newRole }, { merge: true });
+//       setSuccess(`Role ${newRole} assigned to employee ${selectedEmployee}`);
+//       setNewRole('');
+//     } catch (err) {
+//       setError('Error assigning role: ' + err.message);
+//     }
+//   };
+
+//   // Check if userRole is one of the allowed roles
+//   if (!['Super Admin', 'Admin', 'HR'].includes(userRole)) {
+//     return <Typography>You do not have access to this page.</Typography>;
+//   }
+
+//   return (
+//     <Box sx={{ padding: 2 }}>
+//       <Dashboard />
+//       <Typography variant="h4">Roles Management</Typography>
+//       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+//       {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+//       <TextField
+//         select
+//         label="Select Employee"
+//         value={selectedEmployee}
+//         onChange={(e) => setSelectedEmployee(e.target.value)}
+//         fullWidth
+//         margin="normal"
+//       >
+//         {employees.map((employee) => (
+//           <MenuItem key={employee.id} value={employee.id}>
+//             {employee.name}
+//           </MenuItem>
+//         ))}
+//       </TextField>
+//       <TextField
+//         select
+//         label="Select Role"
+//         value={newRole}
+//         onChange={(e) => setNewRole(e.target.value)}
+//         fullWidth
+//         margin="normal"
+//       >
+//         <MenuItem value="Employee">Employee</MenuItem>
+//         <MenuItem value="HR">HR</MenuItem>
+//         <MenuItem value="Admin">Admin</MenuItem>
+//         <MenuItem value="Super Admin">Super Admin</MenuItem>
+//       </TextField>
+//       <Button
+//         onClick={handleAssignRole}
+//         variant="contained"
+//         color="primary"
+//         fullWidth
+//         sx={{ mt: 2 }}
+//       >
+//         Assign Role
+//       </Button>
+//     </Box>
+//   );
+// };
+
+// export default RolesPage;
+
+
+
+import React, { useEffect, useState } from 'react';
+import { auth, db } from '../fireBaseConfig';
+import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
+import { Box, Typography, TextField, MenuItem, Button, Alert, Paper } from '@mui/material';
 import Dashboard from './Dashboard';
 
+const RolesPage = () => {
+  const [userRole, setUserRole] = useState('');
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState('');
+  const [newRole, setNewRole] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-const Role = () => {
-  // Hardcoded user role (this would normally come from authentication)
-  const [loggedInUserRole] = useState('SuperAdmin'); // Possible values: 'SuperAdmin', 'HR', 'Manager'
-  const [newEmployeeName, setNewEmployeeName] = useState('');
-  const [newEmployeeRole, setNewEmployeeRole] = useState('Employee');
-  const [addedEmployees, setAddedEmployees] = useState([]); // List to store added employees
-
-  const handleNameChange = (e) => {
-    setNewEmployeeName(e.target.value);
-  };
-
-  const handleRoleChange = (e) => {
-    setNewEmployeeRole(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Check role-based restrictions
-    if (loggedInUserRole === 'Manager' && newEmployeeRole !== 'Employee') {
-      alert("Managers can only assign the Employee role.");
-    } else if (loggedInUserRole === 'HR' && newEmployeeRole === 'HR') {
-      alert("HR cannot assign the HR role.");
-    } else {
-      // Add the new employee to the list with a timestamp
-      setAddedEmployees([
-        ...addedEmployees,
-        { 
-          addedBy: loggedInUserRole, 
-          employeeName: newEmployeeName, 
-          employeeRole: newEmployeeRole, 
-          addedTime: new Date().toLocaleString() // Add current date and time
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const employeeRef = doc(db, 'Employee', user.uid);
+        const docSnap = await getDoc(employeeRef);
+        if (docSnap.exists()) {
+          setUserRole(docSnap.data().role);
         }
-      ]);
-      alert(`Employee ${newEmployeeName} added as ${newEmployeeRole}`);
-      // Clear the input fields after submission
-      setNewEmployeeName('');
-      setNewEmployeeRole('Employee');
+      }
+    };
+    fetchUserRole();
+  }, []);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      const employeesCollection = collection(db, 'Employee');
+      const employeeSnapshot = await getDocs(employeesCollection);
+      const employeeList = employeeSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setEmployees(employeeList);
+    };
+    fetchEmployees();
+  }, []);
+
+  const handleAssignRole = async () => {
+    try {
+      const docRef = doc(db, 'Employee', selectedEmployee);
+      await setDoc(docRef, { role: newRole }, { merge: true });
+      setSuccess(`Role ${newRole} assigned to employee ${selectedEmployee}`);
+      setNewRole('');
+      setSelectedEmployee('');
+    } catch (err) {
+      setError('Error assigning role: ' + err.message);
     }
   };
 
+  if (!['Super Admin', 'Admin', 'HR'].includes(userRole)) {
+    return <Typography>You do not have access to this page.</Typography>;
+  }
+
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-        <Dashboard/>
-        <section>
-          <div className="h-8"></div>
-          {/* <div className="h-8"></div> */}
-          <div className="h-8"></div>
-        </section>
-      <form className="bg-white shadow-md rounded px-8 pt-18 pb-8 mb-4 w-full max-w-md" onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-bold mb-6 text-center">Add Role</h2>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-            Employee Name
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="name"
-            type="text"
-            placeholder="Enter employee name"
-            value={newEmployeeName}
-            onChange={handleNameChange}
-            required
-          />
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="role">
+    <Box sx={{ display: 'flex' }}>
+      <Dashboard />
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        {/* <Typography variant="h4" sx={{ mb: 4 }}>Roles Management</Typography> */}
+        <Paper elevation={3} sx={{ p: 3, maxWidth: 500, mx: 'auto', pt: 10 }}>
+          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+          <TextField
+            select
+            label="Select Employee"
+            value={selectedEmployee}
+            onChange={(e) => setSelectedEmployee(e.target.value)}
+            fullWidth
+            margin="normal"
+          >
+            {employees.map((employee) => (
+              <MenuItem key={employee.id} value={employee.id}>
+                {employee.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            label="Select Role"
+            value={newRole}
+            onChange={(e) => setNewRole(e.target.value)}
+            fullWidth
+            margin="normal"
+          >
+            <MenuItem value="Employee">Employee</MenuItem>
+            <MenuItem value="HR">HR</MenuItem>
+            <MenuItem value="Admin">Admin</MenuItem>
+            <MenuItem value="Super Admin">Super Admin</MenuItem>
+          </TextField>
+          <Button
+            onClick={handleAssignRole}
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+          >
             Assign Role
-          </label>
-          <select
-            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="role"
-            value={newEmployeeRole}
-            onChange={handleRoleChange}
-            required
-          >
-            {/* Conditional rendering based on logged-in user's role */}
-            {loggedInUserRole === 'SuperAdmin' && (
-              <>
-                <option value="HR">HR</option>
-                <option value="Manager">Manager</option>
-                <option value="Employee">Employee</option>
-              </>
-            )}
-            {loggedInUserRole === 'HR' && (
-              <>
-                <option value="Manager">Manager</option>
-                <option value="Employee">Employee</option>
-              </>
-            )}
-            {loggedInUserRole === 'Manager' && (
-              <option value="Employee">Employee</option>
-            )}
-          </select>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Add Role
-          </button>
-        </div>
-      </form>
-
-      {/* Display the table of added employees */}
-      <div className="w-full max-w-4xl mt-8">
-        <h3 className="text-xl font-bold mb-4">Who Added Whom</h3>
-        {addedEmployees.length === 0 ? (
-          <p className="text-gray-700">No employees added yet.</p>
-        ) : (
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 border-b border-gray-200">Employee Name</th>
-                <th className="px-4 py-2 border-b border-gray-200">Role</th>
-                <th className="px-4 py-2 border-b border-gray-200">Added By</th>
-                <th className="px-4 py-2 border-b border-gray-200">Added Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {addedEmployees.map((entry, index) => (
-                <tr key={index}>
-                  <td className="px-4 py-2 border-b border-gray-200">{entry.employeeName}</td>
-                  <td className="px-4 py-2 border-b border-gray-200">{entry.employeeRole}</td>
-                  <td className="px-4 py-2 border-b border-gray-200">{entry.addedBy}</td>
-                  <td className="px-4 py-2 border-b border-gray-200">{entry.addedTime}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-    </div>
+          </Button>
+        </Paper>
+      </Box>
+    </Box>
   );
 };
 
-export default Role;
-
-
-
-
+export default RolesPage;
