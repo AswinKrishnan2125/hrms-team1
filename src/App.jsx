@@ -3,6 +3,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import BasicTable from './components/Directory.jsx'
 import EmployeeDetails from './components/Profile.jsx';
+import { useState, useEffect } from 'react';
 
 // import { Directions } from '@mui/icons-material';
 
@@ -18,19 +19,18 @@ import PayrollReport from './components/PayrollReport.jsx';
 import PerformanceAnalytics from './components/PerformanceDashboard.jsx';
 import Role from './components/Roles.jsx';
 import Reports from './components/Report.jsx';
-import LeaveHistory from './components/LeaveHistory.jsx';
-import EmployeeReport from './components/EmpReport.jsx';
 
 
 
 // import EmployeeForm from './components/EmployeeForm'
 function App() {
  
-
+  
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<QuickLinks />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<QuickLinks />} />
         <Route path="/performance-management" element={<PerformanceReviewForm />} />
         <Route path="/performance-analytics" element={<PerformanceAnalytics />} />
         <Route path="/payroll" element={<Payroll/>}/>
