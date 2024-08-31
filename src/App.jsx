@@ -20,32 +20,10 @@ import PerformanceAnalytics from './components/PerformanceDashboard.jsx';
 import Role from './components/Roles.jsx';
 import Reports from './components/Report.jsx';
 import LoginPage from './components/Login.jsx';
-import { auth } from './fireBaseConfig';
 // import EmployeeForm from './components/EmployeeForm'
 function App() {
-  const [userRole, setUserRole] = useState('');
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const docRef = doc(db, 'users', user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          setUserRole(docSnap.data().role);
-        }
-      }
-      setLoading(false);
-    };
-
-    fetchUserRole();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+ 
+  
   return (
     <Router>
       <Routes>
@@ -58,6 +36,7 @@ function App() {
         <Route path="/reports" element={<Reports/>}/>
         <Route path="/payroll-dashboard" element={<PayrollDashboard/>}/>
         <Route path="/leave" element={<LeaveForm/>}/>
+        
         <Route path="/leave-approval" element={<LeaveTable/>}/>
         <Route path="/payroll-report" element={<PayrollReport/>}/>
         <Route path="/directory" element={<EmployeeTable/>}/>
