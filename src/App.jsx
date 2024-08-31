@@ -18,6 +18,8 @@ import PayrollReport from './components/PayrollReport.jsx';
 import PerformanceAnalytics from './components/PerformanceDashboard.jsx';
 import Role from './components/Roles.jsx';
 import Reports from './components/Report.jsx';
+import LeaveHistory from './components/LeaveHistory.jsx';
+import EmployeeReport from './components/EmpReport.jsx';
 
 
 
@@ -34,9 +36,10 @@ function App() {
         <Route path="/payroll" element={<Payroll/>}/>
         <Route path="/roles" element={<Role/>}/>
         <Route path="/reports" element={<Reports/>}/>
+        <Route path="/empreport" element={<EmployeeReport/>}/>
         <Route path="/payroll-dashboard" element={<PayrollDashboard/>}/>
         <Route path="/leave" element={<LeaveForm/>}/>
-        
+        <Route path="/leave-history" element={<LeaveHistory/>}/>
         <Route path="/leave-approval" element={<LeaveTable/>}/>
         <Route path="/payroll-report" element={<PayrollReport/>}/>
         <Route path="/directory" element={<EmployeeTable/>}/>

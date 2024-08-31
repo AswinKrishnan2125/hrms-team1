@@ -5,6 +5,9 @@ import React, { useState } from 'react';
 import Dashboard from './Dashboard';
 import PayrollReport from './PayrollReport';
 import EmployeeTable from './Directory';
+import LeaveHistory from './LeaveHistory';
+import PerformanceAnalyticsPage from './PerformanceDashboard';
+import EmployeeReport from './EmpReport';
 
 const Reports = () => {
   const [activeTab, setActiveTab] = useState('employeeReport');
@@ -29,7 +32,7 @@ const Reports = () => {
             >
               View Employee Report
             </button> */}
-            <EmployeeTable/>
+            <EmployeeReport/>
           
           </div>
         );
@@ -63,6 +66,7 @@ const Reports = () => {
               View Leave Report
             </button> */}
             </section>
+            <LeaveHistory/>
           </div>
         );
       case 'performanceReport':
@@ -78,6 +82,7 @@ const Reports = () => {
               View Performance Report
             </button> */}
             </section>
+            <PerformanceAnalyticsPage/>
           </div>
         );
       default:
